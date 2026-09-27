@@ -24,6 +24,10 @@ function symbol(o){const c=escapeXML(o.color||'#264a58'), x=o.x,y=o.y,w=clamp(Nu
  switch(o.kind){
  case 'text':return label(x,y,o.label,clamp(Number(o.size)||24,12,64),'start',c);
  case 'line':case 'arrow':case 'wire':{const x2=Number.isFinite(o.x2)?o.x2:x+160,y2=Number.isFinite(o.y2)?o.y2:y;return `<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="4" stroke-linecap="round" ${o.kind==='arrow'?'marker-end="url(#arrowHead)"':''}/>`+label((x+x2)/2,(y+y2)/2-13,o.label,19,'middle',c);}
+ case 'dimension':{const x2=Number.isFinite(o.x2)?o.x2:x+220,y2=Number.isFinite(o.y2)?o.y2:y;graphic=`<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" ${common}/><path d="M${x} ${y-12} V${y+12} M${x2} ${y2-12} V${y2+12}" ${common}/>`;captionY=y-16;break;}
+ case 'gearpair':graphic=`<circle cx="${x+65}" cy="${y+65}" r="55" ${common}/><circle cx="${x+175}" cy="${y+65}" r="55" ${common}/><circle cx="${x+65}" cy="${y+65}" r="8" fill="${c}"/><circle cx="${x+175}" cy="${y+65}" r="8" fill="${c}"/>`;captionY=y+150;break;
+ case 'fixedpulley':graphic=`<circle cx="${x+70}" cy="${y+70}" r="52" ${common}/><circle cx="${x+70}" cy="${y+70}" r="7" fill="${c}"/><path d="M${x+18} ${y+70} V${y+180} M${x+122} ${y+70} V${y+180}" ${common}/>`;captionY=y+215;break;
+ case 'movablepulley':graphic=`<path d="M${x+15} ${y} V${y+105} A55 55 0 0 0 ${x+125} ${y+105} V${y}" ${common}/><circle cx="${x+70}" cy="${y+105}" r="48" ${common}/><line x1="${x+70}" y1="${y+153}" x2="${x+70}" y2="${y+205}" ${common}/>`;captionY=y+235;break;
  case 'block':graphic=`<rect x="${x}" y="${y}" width="140" height="80" rx="5" fill="#eef4f2" ${common}/>`;captionY=y+49;break;
  case 'beam':graphic=`<rect x="${x}" y="${y}" width="${w}" height="36" rx="3" fill="#dfebe7" ${common}/>`;captionY=y+25;break;
  case 'column':graphic=`<rect x="${x}" y="${y}" width="36" height="${h}" rx="2" fill="#dfebe7" ${common}/>`;captionY=y+h+28;break;
